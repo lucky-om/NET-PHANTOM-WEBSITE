@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Download NetPhantom — Releases, Standalone Installer & PyPI CLI</title>
+    <meta name="description"
+        content="Get the latest release of NetPhantom. Download the Windows setup wizard installer, or set up the packet analyzer using standard Python command-line pip options.">
+    <!-- OpenGraph Metadata -->
+    <meta property="og:title" content="Download NetPhantom — Releases, Standalone Installer & PyPI CLI">
+    <meta property="og:description"
+        content="Download the graphical setup wizard installer or run CLI scripts. Zero telemetry and local processing.">
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/Lucky/NetPhantom/main/website/assets/og-image.png">
+    <meta property="og:url" content="download.html">
+    <meta property="og:type" content="website">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container navbar">
+            <a href="index.html" class="nav-logo" id="nav-logo-id">
+                <img src="logo.png" alt="NetPhantom Logo" class="nav-logo-icon">
+                <span class="nav-logo-text">NetPhantom</span>
+            </a>
+            <button class="mobile-nav-toggle" aria-label="Toggle Navigation" id="mobile-toggle-btn">☰</button>
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html" id="nav-home-id">Home</a></li>
+                    <li><a href="download.html" class="active" id="nav-download-id">Download</a></li>
+                    <li><a href="docs.html" id="nav-docs-id">Docs</a></li>
+                    <li><a href="ai.html" id="nav-ai-id">Phantom AI 👻</a></li>
+                    <li><a href="threats.html" id="nav-threats-id">Threats</a></li>
+                    <li><a href="privacy.html" id="nav-privacy-id">Privacy</a></li>
+                    <li><a href="https://github.com/lucky-om/NetPhantom" target="_blank" id="nav-github-id"
+                            class="btn btn-sm btn-secondary">GitHub ↗</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Download Releases Hub -->
+    <main class="main-section" style="position:relative;">
+        <!-- Background Ambient Glow Orbs -->
+        <div class="ambient-orb ambient-orb-1" style="top: -50px; left: -150px;"></div>
+        <div class="ambient-orb ambient-orb-2" style="top: 300px; right: -200px;"></div>
+
+        <div class="container" style="position:relative; z-index:2;">
+            <div class="section-hdr text-center reveal-on-scroll">
+                <h2 class="hero-title" style="margin-bottom:12px; font-size: 3rem;">
+                    <span class="animated-title-text">Get NetPhantom</span>
+                    <span class="animated-gradient-text">v3.2.2</span>
+                </h2>
+                <p style="color:var(--text-secondary); max-width:600px; margin:0 auto;">Choose your preferred deployment
+                    target. Deploy the standalone graphical wizard setup installer or install directly into your Python
+                    environment.</p>
+            </div>
+
+            <!-- Release Channel Tabs -->
+            <div class="download-tabs reveal-on-scroll">
+                <button class="download-tab-btn active" data-tab="windows">● Windows</button>
+                <button class="download-tab-btn" data-tab="pypi">● Python PyPI Package</button>
+                <button class="download-tab-btn" data-tab="source">● Linux</button>
+            </div>
+
+            <div style="max-width: 760px; margin: 0 auto;">
+                <!-- Tab Panel 1: Windows EXE -->
+                <div class="download-content-panel active" id="tab-windows">
+                    <div class="panel" style="border-color:rgba(0,243,255,0.25);">
+                        <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+                            <svg style="width:36px; height:36px; color:var(--cyan);" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M0 3.449L9.75 2.1v9.45H0V3.449zM0 12.45h9.75v9.45L0 20.551v-8.101zM10.8 1.95L24 0v11.55H10.8V1.95zM10.8 12.45H24v11.55l-13.2-1.95v-9.6z">
+                                </path>
+                            </svg>
+                            <div>
+                                <span class="code-tag">Windows Release</span>
+                                <h3 style="font-size:1.4rem;">Setup Installer </h3>
+                                <div style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-dim);">
+                                    File: NetPhantom_Setup.exe</div>
+                            </div>
+                        </div>
+
+                        <p style="margin-bottom:24px;">
+                            The official NetPhantom Windows setup installer executable
+                            (<code>NetPhantom_Setup.exe</code>). Upon execution,
+                            it automatically configures all NetPhantom packet engine modules, installs Npcap drivers,
+                            creates Desktop & Start Menu
+                            shortcuts, and registers system file associations.
+                        </p>
+
+                        <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin-bottom:16px;">
+                            <a href="https://github.com/lucky-om/NetPhantom/raw/main/installers/windows/dist/NetPhantom_Setup.exe" class="btn btn-cyan"
+                                id="download-win-setup" download="NetPhantom_Setup.exe" style="padding:14px 28px; font-size:1.05rem;">
+                                ⚡ Download NetPhantom Setup (.exe)
+                            </a>
+                            <span style="font-family:var(--font-mono); font-size:0.82rem; color:var(--text-dim);">
+                                Size: 68.9 MB • Version: v3.2.2 (Windows 10 / 11)
+                            </span>
+                        </div>
+
+                        <div style="background:rgba(15,23,42,0.8); border:1px solid rgba(0,243,255,0.2); border-radius:6px; padding:12px; font-size:0.80rem; color:var(--text-secondary); line-height:1.5;">
+                            <strong>🛡️ Windows Defender SmartScreen Note:</strong> Because this is a custom open-source binary without an expensive EV Code Signing Certificate, Defender SmartScreen may display <em>"Windows protected your PC"</em>.<br>
+                            Click <strong>"More info"</strong> ➔ <strong>"Run anyway"</strong>. Alternatively, right-click the downloaded <code>NetPhantom_Setup.exe</code> ➔ <strong>Properties</strong> ➔ Check <strong>"Unblock"</strong> at the bottom ➔ Click <strong>Apply</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Panel 2: PIP Setup -->
+                <div class="download-content-panel" id="tab-pypi">
+                    <div class="panel">
+                        <span class="code-tag">PyPI Package</span>
+                        <h3 style="font-size:1.4rem; margin-bottom:12px;">Install via Python Pip</h3>
+                        <p style="margin-bottom:16px;">
+                            If you already have Python 3.9+ configured, install NetPhantom directly into your global
+                            virtual environment using pip:
+                        </p>
+
+                        <div class="copy-box">
+                            <code>python -m pip install -e .</code>
+                            <button class="copy-btn">COPY</button>
+                        </div>
+
+                        <div class="copy-box">
+                            <code>netphantom</code>
+                            <button class="copy-btn">COPY</button>
+                        </div>
+
+                        <div style="margin-top:20px; font-size:0.82rem; color:var(--text-dim);">
+                            Dependencies automatically resolved: <code>scapy</code>, <code>pywifi</code>, <code>Pillow</code>, <code>psutil</code>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Panel 3: Linux Setup -->
+                <div class="download-content-panel" id="tab-source">
+                    <div class="panel">
+                        <span class="code-tag">Linux Setup</span>
+                        <h3 style="font-size:1.4rem; margin-bottom:12px;">Linux Auto Installer & Source Build</h3>
+                        <p style="margin-bottom:16px;">
+                            Run Linux setup installer to auto-install dependencies, grant packet capture
+                            capabilities, and register system desktop shortcuts:
+                        </p>
+
+                        <div class="copy-box">
+                            <code>git clone https://github.com/lucky-om/NetPhantom.git</code>
+                            <button class="copy-btn">COPY</button>
+                        </div>
+
+                        <div class="copy-box">
+                            <code>cd NetPhantom && sudo ./installers/linux/install.sh</code>
+                            <button class="copy-btn">COPY</button>
+                        </div>
+
+                        <div class="copy-box">
+                            <code>netphantom</code>
+                            <button class="copy-btn">COPY</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="section-divider">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="nav-logo" style="margin-bottom:16px;">
+                        <img src="logo.png" alt="NetPhantom Logo" class="nav-logo-icon">
+                        <span class="nav-logo-text">NetPhantom</span>
+                    </div>
+                    <p>A professional Cybersecurity portfolio project designed to bring advanced packet capture
+                        capabilities and high-fidelity interface design to the desktop.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Documentation & Tools</h4>
+                    <ul>
+                        <li><a href="download.html">Download Release Installer</a></li>
+                        <li><a href="docs.html">User Guide & BPF Filters</a></li>
+                        <li><a href="ai.html" id="nav-ai-id">Phantom AI 👻</a></li>
+                    <li><a href="threats.html">Intrusion Signatures Index</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Privacy & Security</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="privacy.html#ethical-usage">Ethical Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2026 NetPhantom. Made with 👻 by NetPhantom!</div>
+                <div class="status-ping-bar">
+                    <span class="status-dot"></span> SYSTEM OPERATIONAL — 99.99% UPTIME
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
