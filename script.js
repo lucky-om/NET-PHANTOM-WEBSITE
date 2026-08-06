@@ -778,7 +778,7 @@ function initStandalonePhantomAIPage() {
 
     // Sandbox Threat Evaluator Handler
     if (sandboxBtn && sandboxText && sandboxOutput) {
-        sandboxBtn.addEventListener("click", () => {
+        sandboxBtn.addEventListener("click", async () => {
             const raw = sandboxText.value.trim();
             if (!raw) {
                 showToast("Please enter packet metadata or protocol info into sandbox.");
@@ -786,44 +786,59 @@ function initStandalonePhantomAIPage() {
             }
             sandboxBtn.innerHTML = "Analyzing Metadata... ⏳";
             sandboxBtn.disabled = true;
+            sandboxOutput.style.display = "block";
+            sandboxOutput.innerHTML = `<div>Connecting to Phantom AI Threat Engine... ⏳</div>`;
 
-            setTimeout(() => {
-                const isMalicious = injectionPatterns.some(pat => pat.test(raw));
-                sandboxOutput.style.display = "block";
+            const isMalicious = injectionPatterns.some(pat => pat.test(raw));
+            if (isMalicious) {
                 sandboxBtn.innerHTML = "Run AI Security Audit ⚡";
                 sandboxBtn.disabled = false;
+                sandboxOutput.innerHTML = `
+                    <div style="color:var(--danger); font-weight:bold; margin-bottom:4px;">🛡️ SECURITY AUDIT RESULT: REJECTED</div>
+                    <div><strong>REASON:</strong> Input contains forbidden override tokens. Analysis blocked by security policy.</div>
+                `;
+                return;
+            }
 
-                if (isMalicious) {
-                    sandboxOutput.innerHTML = `
-                        <div style="color:var(--danger); font-weight:bold; margin-bottom:4px;">🛡️ SECURITY AUDIT RESULT: REJECTED</div>
-                        <div><strong>REASON:</strong> Input contains forbidden override tokens. Analysis blocked by security policy.</div>
-                    `;
+            try {
+                const sandboxPrompt = "You are Phantom AI Threat Sandbox. The user will provide raw packet metadata, hex, or protocol info. Analyze it for security threats. Reply with exactly this HTML format:\n<div style=\"color:[color]; font-weight:bold; font-size:0.85rem; margin-bottom:6px;\">RISK ASSESSMENT: [Risk level e.g. HIGH/MEDIUM/LOW]</div>\n<div style=\"margin-bottom:6px;\"><strong>ANALYSIS:</strong> [Your analysis]</div>\n<div><strong>REMEDIATION:</strong> [Your remediation]</div>\nUse var(--emerald) for LOW, var(--amber) for MEDIUM, and var(--danger) for HIGH.";
+                
+                const API_KEY = window.GROQ_API_KEY || ""; 
+                if (!API_KEY) {
+                    sandboxOutput.innerHTML = "⚠️ The Phantom AI API key is not configured. Please set `window.GROQ_API_KEY` in your environment.";
+                    sandboxBtn.innerHTML = "Run AI Security Audit ⚡";
+                    sandboxBtn.disabled = false;
                     return;
                 }
 
-                let riskLevel = "LOW (NORMAL TRAFFIC)";
-                let riskColor = "var(--emerald)";
-                let analysis = "Standard packet payload frame. Headers indicate normal TCP handshake flow without malicious signatures.";
-                let remediation = "No action required.";
+                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${API_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "llama3-8b-8192", 
+                        messages: [
+                            { role: "system", content: sandboxPrompt },
+                            { role: "user", content: raw }
+                        ],
+                        temperature: 0.2,
+                        max_tokens: 400
+                    })
+                });
 
-                if (raw.toLowerCase().includes("syn") && !raw.toLowerCase().includes("ack")) {
-                    riskLevel = "MEDIUM (TCP SYN CONNECTION)";
-                    riskColor = "var(--amber)";
-                    analysis = "Initiating TCP SYN handshake. Rapid SYN requests from single host indicate potential port scanning.";
-                    remediation = "Monitor host frequency and enforce firewall rate limits.";
-                } else if (raw.toLowerCase().includes("http") || raw.toLowerCase().includes("port 80")) {
-                    riskLevel = "MEDIUM (UNENCRYPTED PLAINTEXT)";
-                    riskColor = "var(--amber)";
-                    analysis = "Traffic transmitted in unencrypted HTTP plaintext. Sensitive headers may be intercepted by eavesdroppers.";
-                    remediation = "Enforce HTTPS/TLS encryption tunnel.";
-                }
+                if (!response.ok) throw new Error("API request failed");
 
-                sandboxOutput.innerHTML = `
-                    <div style="color:${riskColor}; font-weight:bold; font-size:0.85rem; margin-bottom:6px;">RISK ASSESSMENT: ${riskLevel}</div>
-                    <div style="margin-bottom:6px;"><strong>ANALYSIS:</strong> ${analysis}</div>
-                    <div><strong>REMEDIATION:</strong> ${remediation}</div>
-                `;
-            }, 500);
+                const data = await response.json();
+                sandboxOutput.innerHTML = data.choices[0].message.content;
+            } catch (error) {
+                console.error("Sandbox Error:", error);
+                sandboxOutput.innerHTML = "⚠️ I encountered an error connecting to the AI brain.";
+            }
+
+            sandboxBtn.innerHTML = "Run AI Security Audit ⚡";
+            sandboxBtn.disabled = false;
         });
     }
 
