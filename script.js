@@ -823,7 +823,7 @@ function initStandalonePhantomAIPage() {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        model: "llama3-8b-8192", 
+                        model: "llama-3.1-8b-instant", 
                         messages: [
                             { role: "system", content: sandboxPrompt },
                             { role: "user", content: raw }
@@ -887,7 +887,7 @@ Always maintain an extremely friendly and eager-to-help persona.`;
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "llama3-8b-8192", // Fast and efficient for quick replies
+                model: "llama-3.1-8b-instant", // Fast and efficient for quick replies
                 messages: [
                     { role: "system", content: systemPrompt },
                     { role: "user", content: query }
