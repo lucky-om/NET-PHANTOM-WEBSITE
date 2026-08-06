@@ -107,22 +107,39 @@
             </div>
 
             <!-- Policy Block 4 -->
-            <div class="panel reveal-on-scroll" style="padding:32px; border-color:rgba(0,255,157,0.3);">
+            <div class="panel reveal-on-scroll" style="margin-bottom:24px; padding:32px; border-color:rgba(0,255,157,0.3);">
                 <div class="hud-tag"
                     style="margin-bottom:16px; color:var(--emerald); background:var(--emerald-glow); border-color:rgba(0,255,157,0.3);">
                     ✓ 100% LOCAL PRIVACY ARCHITECTURE
                 </div>
-                <h3 style="margin-bottom:12px; font-size:1.3rem;">Local Volatile Storage & Zero Telemetry</h3>
+                <h3 style="margin-bottom:12px; font-size:1.3rem;">Local Volatile Storage & Packet Telemetry</h3>
                 <p style="margin-bottom:16px;">
-                    NetPhantom is engineered to respect total local data privacy:
+                    NetPhantom's core engine is engineered to respect total local data privacy:
                 </p>
                 <ul style="margin-left:20px; color:var(--text-secondary); line-height:1.8; font-size:0.92rem;">
                     <li><strong>Volatile Memory Only:</strong> Captured frames and dissected protocol trees exist
                         exclusively in volatile system RAM and are wiped upon process termination.</li>
                     <li><strong>Zero Telemetry:</strong> No backend analytics, tracking pingbacks, or crash report
                         transmitters exist in the codebase.</li>
-                    <li><strong>Zero External Servers:</strong> No packet logs or host IP addresses are ever transmitted
+                    <li><strong>No Default Exfiltration:</strong> By default, no packet logs or host IP addresses are ever transmitted
                         to Luckyverse or third parties.</li>
+                </ul>
+            </div>
+
+            <!-- Policy Block 5: AI Privacy -->
+            <div class="panel reveal-on-scroll" style="padding:32px; border-color:rgba(0,243,255,0.3);">
+                <div class="hud-tag"
+                    style="margin-bottom:16px; color:var(--cyan); background:var(--cyan-glow); border-color:rgba(0,243,255,0.3);">
+                    👻 PHANTOM AI DATA TRANSMISSION
+                </div>
+                <h3 style="margin-bottom:12px; font-size:1.3rem;">Phantom AI & Third-Party LLM APIs</h3>
+                <p style="margin-bottom:16px;">
+                    When utilizing the optional <strong>Phantom AI Sandbox</strong> or chat assistant, please be aware of the following:
+                </p>
+                <ul style="margin-left:20px; color:var(--text-secondary); line-height:1.8; font-size:0.92rem;">
+                    <li><strong>Third-Party Processing:</strong> Queries, packet metadata, and any information pasted into the AI tools are transmitted over an encrypted TLS connection to the <strong>Groq API</strong> for inference.</li>
+                    <li><strong>Data Minimization:</strong> You should carefully sanitize packet payloads. Never submit raw packets containing PII, plaintext passwords, or sensitive enterprise data to the AI Sandbox.</li>
+                    <li><strong>User-Supplied Keys:</strong> The AI engine operates strictly using your locally supplied <code>GROQ_API_KEY</code>. We do not proxy your requests through our servers.</li>
                 </ul>
             </div>
         </div>
