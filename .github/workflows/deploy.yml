@@ -26,13 +26,15 @@ jobs:
 
       - name: Inject Groq API Key
         env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY || secrets.__GROQ_API_KEY__ }}
+          KEY_1: ${{ secrets.GROQ_API_KEY }}
+          KEY_2: ${{ secrets['__GROQ_API_KEY__'] }}
         run: |
-          if [ -n "$GROQ_API_KEY" ]; then
-            sed -i "s|__GROQ_API_KEY__|$GROQ_API_KEY|g" script.js
+          API_KEY="${KEY_1:-$KEY_2}"
+          if [ -n "$API_KEY" ]; then
+            sed -i "s|__GROQ_API_KEY__|$API_KEY|g" script.js
             echo "Successfully injected API key."
           else
-            echo "WARNING: GROQ_API_KEY secret is not set!"
+            echo "WARNING: API key secret is not set!"
           fi
 
       - name: Setup Pages
