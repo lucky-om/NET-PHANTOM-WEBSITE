@@ -15,19 +15,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Inject Groq API Key
-        env:
-          KEY_1: ${{ secrets.GROQ_API_KEY }}
-          KEY_2: ${{ secrets['__GROQ_API_KEY__'] }}
-        run: |
-          API_KEY="${KEY_1:-$KEY_2}"
-          if [ -n "$API_KEY" ]; then
-            sed -i "s|__GROQ_API_KEY__|$API_KEY|g" script.js
-            echo "Successfully injected API key."
-          else
-            echo "WARNING: API key secret is not set!"
-          fi
-
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
