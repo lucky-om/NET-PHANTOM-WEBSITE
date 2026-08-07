@@ -808,7 +808,10 @@ function initStandalonePhantomAIPage() {
             try {
                 const sandboxPrompt = "You are Phantom AI Threat Sandbox. The user will provide raw packet metadata, hex, or protocol info. Analyze it for security threats. Reply with exactly this HTML format:\n<div style=\"color:[color]; font-weight:bold; font-size:0.85rem; margin-bottom:6px;\">RISK ASSESSMENT: [Risk level e.g. HIGH/MEDIUM/LOW]</div>\n<div style=\"margin-bottom:6px;\"><strong>ANALYSIS:</strong> [Your analysis]</div>\n<div><strong>REMEDIATION:</strong> [Your remediation]</div>\nUse var(--emerald) for LOW, var(--amber) for MEDIUM, and var(--danger) for HIGH.";
                 
-                let API_KEY = getSecureKey();
+                let API_KEY = '__GROQ_API_KEY__'; // GitHub Action will replace this
+                if (API_KEY.startsWith('__GROQ_API')) {
+                    API_KEY = window.GROQ_API_KEY || ""; // Fallback for local dev
+                }
                 if (!API_KEY) {
                     sandboxOutput.innerHTML = "⚠️ The Phantom AI API key is not configured. Please set `window.GROQ_API_KEY` in your environment.";
                     sandboxBtn.innerHTML = "Run AI Security Audit ⚡";
@@ -866,7 +869,10 @@ function initStandalonePhantomAIPage() {
         const q = query.toLowerCase().trim();
 
         // Make real API call to Groq
-        let API_KEY = getSecureKey();
+        let API_KEY = '__GROQ_API_KEY__'; // GitHub Action will replace this
+        if (API_KEY.startsWith('__GROQ_API')) {
+            API_KEY = window.GROQ_API_KEY || ""; // Fallback for local dev
+        }
         
         if (!API_KEY) {
             return "⚠️ The Phantom AI API key is not configured. Please set `window.GROQ_API_KEY` in your environment.";
