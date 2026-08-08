@@ -718,16 +718,60 @@ function initStandalonePhantomAIPage() {
 
     if (!form || !messages) return;
 
-    // Quick Chip Click Handler
-    quickChips.forEach(chip => {
-        chip.addEventListener("click", () => {
-            const promptText = chip.getAttribute("data-prompt");
-            if (promptText && input) {
-                input.value = promptText;
-                form.dispatchEvent(new Event("submit"));
+    // ── API Key Management (localStorage) ──
+    function getApiKey() {
+        return localStorage.getItem("phantom_ai_key") || "";
+    }
+    function setApiKey(key) {
+        localStorage.setItem("phantom_ai_key", key);
+    }
+    function hasApiKey() {
+        return !!getApiKey();
+    }
+
+    // Show setup dialog if no key saved
+    if (!hasApiKey()) {
+        setTimeout(() => showApiKeySetup(), 500);
+    }
+
+    function showApiKeySetup() {
+        const overlay = document.createElement("div");
+        overlay.id = "phantom-key-setup";
+        overlay.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:99999;display:flex;align-items:center;justify-content:center;";
+        overlay.innerHTML = `
+            <div style="background:#0d1420;border:1px solid rgba(0,243,255,0.3);border-radius:12px;padding:32px;max-width:460px;width:90%;text-align:center;">
+                <div style="font-size:2.5rem;margin-bottom:12px;">👻</div>
+                <h2 style="color:#fff;margin:0 0 8px 0;font-size:1.3rem;">Phantom AI Setup</h2>
+                <p style="color:#94a3b8;font-size:0.88rem;margin:0 0 18px 0;">Enter your Groq API key to enable full AI responses.<br><a href="https://console.groq.com" target="_blank" style="color:#06b6d4;">Get a free key →</a></p>
+                <input type="password" id="phantom-key-input" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx"
+                    style="width:100%;padding:12px;border-radius:8px;border:1px solid #1e3a5f;background:#060911;color:#fff;font-size:0.9rem;outline:none;margin-bottom:14px;box-sizing:border-box;">
+                <div style="display:flex;gap:10px;">
+                    <button id="phantom-key-save" style="flex:1;padding:10px;border:none;border-radius:8px;background:#06b6d4;color:#000;font-weight:bold;cursor:pointer;font-size:0.9rem;">Save & Start</button>
+                    <button id="phantom-key-skip" style="padding:10px 16px;border:none;border-radius:8px;background:#1e293b;color:#94a3b8;cursor:pointer;font-size:0.85rem;">Skip for now</button>
+                </div>
+                <p style="color:#475569;font-size:0.72rem;margin:12px 0 0 0;">Your key is stored only in your browser. It is never sent to any server except Groq's API.</p>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+
+        document.getElementById("phantom-key-save").addEventListener("click", () => {
+            const key = document.getElementById("phantom-key-input").value.trim();
+            if (key && key.startsWith("gsk_") && key.length >= 20) {
+                setApiKey(key);
+                overlay.remove();
+                appendMessage("system", "👻", "API key saved! Phantom AI is ready. Ask me anything about网络安全, packets, or cybersecurity!");
+            } else {
+                document.getElementById("phantom-key-input").style.borderColor = "#ef4444";
             }
         });
-    });
+        document.getElementById("phantom-key-skip").addEventListener("click", () => {
+            overlay.remove();
+            appendMessage("system", "👻", "No API key set. I can still help with greetings and basic questions. Type <strong>'setup'</strong> anytime to configure your key.");
+        });
+        document.getElementById("phantom-key-input").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") document.getElementById("phantom-key-save").click();
+        });
+    }
 
     // Anti-Jailbreak & Prompt Injection Defense Signatures (OWASP LLM Top 10)
     const injectionPatterns = [
@@ -807,9 +851,9 @@ function initStandalonePhantomAIPage() {
             try {
                 const sandboxPrompt = "You are Phantom AI Threat Sandbox. The user will provide raw packet metadata, hex, or protocol info. Analyze it for security threats. Reply with exactly this HTML format:\n<div style=\"color:[color]; font-weight:bold; font-size:0.85rem; margin-bottom:6px;\">RISK ASSESSMENT: [Risk level e.g. HIGH/MEDIUM/LOW]</div>\n<div style=\"margin-bottom:6px;\"><strong>ANALYSIS:</strong> [Your analysis]</div>\n<div><strong>REMEDIATION:</strong> [Your remediation]</div>\nUse var(--emerald) for LOW, var(--amber) for MEDIUM, and var(--danger) for HIGH.";
 
-                const API_KEY = window.PHANTOM_API_KEY || "";
+                const API_KEY = getApiKey();
                 if (!API_KEY) {
-                    sandboxOutput.innerHTML = "API key not set. Add your key in config.js";
+                    sandboxOutput.innerHTML = "No API key set. Type <strong>setup</strong> in the chat to configure your key.";
                     sandboxBtn.innerHTML = "Run AI Security Audit ⚡";
                     sandboxBtn.disabled = false;
                     return;
@@ -890,6 +934,10 @@ function initStandalonePhantomAIPage() {
               response: () => `<strong>NetPhantom</strong> is a professional packet analyzer with AI-powered threat detection, live capture, protocol inspection, and cross-platform support. Ask me anything about it!` },
             { patterns: [/^(joke|funny|make me laugh|entertain me)/i],
               response: () => `Why did the packet cross the network? To get to the other <strong>side</strong>... of the firewall! 😄` },
+            { patterns: [/^(setup|config|configure|api|key|settings)/i],
+              response: () => { setTimeout(() => showApiKeySetup(), 100); return "Opening API key setup..."; } },
+            { patterns: [/^(remove key|delete key|clear key|reset key|forget key)/i],
+              response: () => { localStorage.removeItem("phantom_ai_key"); return "API key removed from this browser. Type <strong>'setup'</strong> to add a new one."; } },
         ];
 
         for (const entry of localResponses) {
@@ -899,10 +947,10 @@ function initStandalonePhantomAIPage() {
         }
 
         // Make API call to Phantom AI backend
-        const API_KEY = window.PHANTOM_API_KEY || "";
+        const API_KEY = getApiKey();
 
         if (!API_KEY) {
-            return "API key not set. Add your key in config.js to enable full AI responses. Meanwhile, I can still help with greetings and basic questions!";
+            return "No API key configured. Type <strong>'setup'</strong> to add your key, or I can still help with greetings and basic questions!";
         }
 
         const endpoint = "https://api.groq.com/openai/v1/chat/completions";
