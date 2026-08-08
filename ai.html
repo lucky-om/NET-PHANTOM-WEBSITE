@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Phantom AI Threat Intelligence Console — NetPhantom</title>
+    <meta name="description"
+        content="Phantom AI Threat Intelligence & Packet Security Analysis Console with Anti-Jailbreak and OWASP LLM security controls.">
+    <!-- OpenGraph Metadata -->
+    <meta property="og:title" content="Phantom AI Threat Intelligence — NetPhantom">
+    <meta property="og:description"
+        content="Phantom AI threat intelligence engine for network packet analysis and cybersecurity guidance.">
+    <meta property="og:url" content="ai.html">
+    <meta property="og:type" content="website">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container navbar">
+            <a href="index" class="nav-logo" id="nav-logo-id">
+                <img src="logo.png" alt="NetPhantom Logo" class="nav-logo-icon">
+                <span class="nav-logo-text">NetPhantom</span>
+            </a>
+            <button class="mobile-nav-toggle" aria-label="Toggle Navigation" id="mobile-toggle-btn">☰</button>
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="index" id="nav-home-id">Home</a></li>
+                    <li><a href="download" id="nav-download-id">Download</a></li>
+                    <li><a href="docs" id="nav-docs-id">Docs</a></li>
+                    <li><a href="threats" id="nav-threats-id">Threats</a></li>
+                    <li><a href="ai" class="active" id="nav-ai-id">Phantom AI 👻</a></li>
+                    <li><a href="privacy" id="nav-privacy-id">Privacy</a></li>
+                    <li><a href="https://github.com/lucky-om/NetPhantom" target="_blank" id="nav-github-id"
+                            class="btn btn-sm btn-secondary">GitHub ↗</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="main-section" style="position:relative; padding: 40px 0;">
+        <div class="ambient-orb ambient-orb-1" style="top: -80px; left: -100px;"></div>
+        <div class="ambient-orb ambient-orb-2" style="top: 350px; right: -150px;"></div>
+
+        <div class="container" style="position:relative; z-index:2;">
+            <div class="section-hdr text-center reveal-on-scroll" style="margin-bottom: 28px;">
+                <div class="hud-tag">AI_THREAT_INTELLIGENCE_MODULE_v3.3.1</div>
+                <h1 class="hero-title" style="margin-bottom:12px; font-size: 2.5rem;">
+                    <span class="animated-title-text">Phantom AI Console &</span>
+                    <span class="animated-gradient-text">Packet Threat Analyzer</span>
+                </h1>
+                <p style="color:var(--text-secondary); max-width:680px; margin:0 auto; font-size:0.92rem;">
+                    Powered by <strong>Phantom AI Threat Intelligence</strong>. Query cybersecurity protocols, analyze
+                    anomalous packets, and retrieve remediation rules.
+                </p>
+            </div>
+
+            <!-- AI Page Main Grid -->
+            <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap:24px;" class="ai-page-grid">
+
+                <!-- Left Column: Interactive Chat Console -->
+                <div class="panel"
+                    style="display:flex; flex-direction:column; height: 600px; padding:0; overflow:hidden; border-color:rgba(0,243,255,0.3);">
+                    <!-- Chat Header -->
+                    <div
+                        style="padding:14px 20px; background:rgba(13,20,32,0.95); border-bottom:1px solid var(--border-ghost); display:flex; align-items:center; justify-content:space-between;">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <span style="font-size:1.4rem;">👻</span>
+                            <div>
+                                <h3 style="font-size:1.1rem; margin:0;">Phantom AI Assistant</h3>
+                                <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--emerald);">
+                                    ● PHANTOM AI THREAT ENGINE • REAL-TIME AUDIT
+                                </div>
+                            </div>
+                        </div>
+                        <span class="code-tag"
+                            style="color:var(--cyan); border-color:var(--cyan); font-size:0.65rem;">ACTIVE</span>
+                    </div>
+
+                    <!-- Chat Messages Display -->
+                    <div id="page-ai-messages"
+                        style="flex:1; padding:16px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; background:rgba(5,8,14,0.6);">
+                        <div class="ai-msg ai-msg-system">
+                            <span class="ai-avatar">👻</span>
+                            <div class="ai-bubble">
+                                Welcome to the <strong>Phantom AI Threat Intelligence Console</strong>. I am trained to
+                                assist security analysts with packet inspection, BPF capture syntax, threat heuristics,
+                                and defense protocols. How can I assist your network audit?
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input Form -->
+                    <div
+                        style="padding:14px 16px; background:rgba(10,15,24,0.95); border-top:1px solid var(--border-ghost);">
+                        <div
+                            style="font-family:var(--font-mono); font-size:0.65rem; color:var(--emerald); text-align:center; margin-bottom:8px;">
+                            🛡️ Encrypted & Isolated Threat Analysis Engine Active
+                        </div>
+                        <form id="page-ai-form" style="display:flex; gap:10px;">
+                            <input type="text" id="page-ai-input"
+                                placeholder="Type your security question or packet query..." autocomplete="off"
+                                style="flex:1; background:#060911; border:1px solid var(--border-ghost); border-radius:8px; padding:12px 16px; color:#fff; font-size:0.88rem; outline:none;">
+                            <button type="submit" class="btn btn-cyan" style="padding:10px 20px; font-size:0.88rem;">Ask
+                                AI ➔</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right Column: Packet Anomaly Sandbox & Security Specs -->
+                <div style="display:flex; flex-direction:column; gap:20px;">
+                    <!-- Sandbox Card -->
+                    <div class="panel" style="padding:20px;">
+                        <span class="code-tag" style="color:var(--amber); border-color:var(--amber);">Threat
+                            Evaluator</span>
+                        <h3 style="font-size:1.2rem; margin:8px 0 12px 0;">Packet Anomaly AI Sandbox</h3>
+                        <p style="font-size:0.84rem; margin-bottom:14px;">Paste raw packet metadata or socket
+                            information below for instant AI security risk scoring:</p>
+
+                        <div style="margin-bottom:12px;">
+                            <label
+                                style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim); display:block; margin-bottom:4px;">PROMPT
+                                / PACKET METADATA:</label>
+                            <textarea id="ai-sandbox-text" rows="4"
+                                style="width:100%; background:#060911; border:1px solid var(--border-ghost); border-radius:6px; padding:10px; font-family:var(--font-mono); font-size:0.80rem; color:var(--cyan); outline:none; resize:none;"
+                                placeholder="Example: Protocol: TCP, Src: 192.168.1.105:51240, Dst: 104.21.32.185:443, Info: [SYN] Seq=0 Win=64240"></textarea>
+                        </div>
+
+                        <button id="ai-sandbox-run" class="btn btn-secondary"
+                            style="width:100%; justify-center; text-align:center; padding:10px; font-size:0.82rem;">
+                            Run AI Security Audit ⚡
+                        </button>
+
+                        <div id="ai-sandbox-output"
+                            style="margin-top:14px; display:none; padding:12px; background:#080d16; border-radius:6px; border:1px solid var(--border-ghost); font-family:var(--font-mono); font-size:0.78rem; line-height:1.45;">
+                        </div>
+                    </div>
+
+                    <!-- Security Hardening Specs Card -->
+                    <div class="panel" style="padding:20px;">
+                        <span class="code-tag text-emerald">Security Architecture</span>
+                        <h3 style="font-size:1.15rem; margin:8px 0 10px 0;">Threat Shield Specifications</h3>
+                        <ul style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6; padding-left:18px;">
+                            <li><strong>Zero-Trust Input Validation:</strong> Strict context boundaries preventing
+                                invalid command overrides.</li>
+                            <li><strong>Anomaly Pattern Engine:</strong> Identifies scan signatures, unencrypted
+                                payloads, and SYN floods.</li>
+                            <li><strong>Server-Side Key Storage:</strong> API keys stored securely on a Cloudflare Worker proxy — never exposed to the browser or repository.</li>
+                            <li><strong>TLS 1.2+ Encryption:</strong> End-to-end encrypted HTTPS communication.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="section-divider">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="nav-logo" style="margin-bottom:16px;">
+                        <img src="logo.png" alt="NetPhantom Logo" class="nav-logo-icon">
+                        <span class="nav-logo-text">NetPhantom</span>
+                    </div>
+                    <p>A professional Cybersecurity portfolio project designed to bring advanced packet capture
+                        capabilities and high-fidelity interface design to desktop and web.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Documentation & Tools</h4>
+                    <ul>
+                        <li><a href="download">Download Release Installer</a></li>
+                        <li><a href="docs">User Guide & BPF Filters</a></li>
+                        <li><a href="ai">Phantom AI Console</a></li>
+                        <li><a href="threats">Intrusion Signatures Index</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Privacy & Security</h4>
+                    <ul>
+                        <li><a href="privacy">Privacy Policy</a></li>
+                        <li><a href="privacy.html#ethical-usage">Ethical Terms</a></li>
+                        <li><a href="https://github.com/lucky-om/NetPhantom" target="_blank">GitHub Repository</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>© 2026 NetPhantom. Made with 👻 by NetPhantom!</div>
+                <div class="status-ping-bar">
+                    <span class="status-dot"></span> SYSTEM OPERATIONAL — 99.9% UPTIME
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
