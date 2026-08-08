@@ -141,7 +141,7 @@
                 <ul style="margin-left:20px; color:var(--text-secondary); line-height:1.8; font-size:0.92rem; text-align: left;">
                     <li><strong>Third-Party Processing:</strong> Queries, packet metadata, and any information pasted into the AI tools are transmitted over an encrypted TLS connection to the <strong>Phantom AI backend</strong> for inference.</li>
                     <li><strong>Data Minimization:</strong> You should carefully sanitize packet payloads. Never submit raw packets containing PII, plaintext passwords, or sensitive enterprise data to the AI Sandbox.</li>
-                    <li><strong>User-Supplied Keys:</strong> The AI engine operates strictly using your locally supplied <code>PHANTOM_API_KEY</code>. We do not proxy your requests through our servers.</li>
+                    <li><strong>Server-Side Key Storage:</strong> API keys are stored securely on a Cloudflare Worker proxy and are never exposed to the browser or our repository.</li>
                 </ul>
             </div>
         </div>
