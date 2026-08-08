@@ -807,12 +807,9 @@ function initStandalonePhantomAIPage() {
             try {
                 const sandboxPrompt = "You are Phantom AI Threat Sandbox. The user will provide raw packet metadata, hex, or protocol info. Analyze it for security threats. Reply with exactly this HTML format:\n<div style=\"color:[color]; font-weight:bold; font-size:0.85rem; margin-bottom:6px;\">RISK ASSESSMENT: [Risk level e.g. HIGH/MEDIUM/LOW]</div>\n<div style=\"margin-bottom:6px;\"><strong>ANALYSIS:</strong> [Your analysis]</div>\n<div><strong>REMEDIATION:</strong> [Your remediation]</div>\nUse var(--emerald) for LOW, var(--amber) for MEDIUM, and var(--danger) for HIGH.";
 
-                let API_KEY = '__PHANTOM_API_KEY__'; // Placeholder; set window.PHANTOM_API_KEY for client-side use
-                if (API_KEY.startsWith('__PHANTOM_API')) {
-                    API_KEY = window.PHANTOM_API_KEY || ""; // Fallback for local dev
-                }
+                const API_KEY = window.PHANTOM_API_KEY || "";
                 if (!API_KEY) {
-                    sandboxOutput.innerHTML = "⚠️ Phantom AI API key not configured. Set <code>window.PHANTOM_API_KEY</code> in your environment.";
+                    sandboxOutput.innerHTML = "API key not set. Add your key in config.js";
                     sandboxBtn.innerHTML = "Run AI Security Audit ⚡";
                     sandboxBtn.disabled = false;
                     return;
@@ -902,13 +899,10 @@ function initStandalonePhantomAIPage() {
         }
 
         // Make API call to Phantom AI backend
-        let API_KEY = '__PHANTOM_API_KEY__'; // Placeholder; set window.PHANTOM_API_KEY for client-side use
-        if (API_KEY.startsWith('__PHANTOM_API')) {
-            API_KEY = window.PHANTOM_API_KEY || ""; // Fallback for local dev
-        }
+        const API_KEY = window.PHANTOM_API_KEY || "";
 
         if (!API_KEY) {
-            return "⚠️ Phantom AI API key not configured yet. You can still chat with me about greetings, cybersecurity basics, and NetPhantom features!";
+            return "API key not set. Add your key in config.js to enable full AI responses. Meanwhile, I can still help with greetings and basic questions!";
         }
 
         const endpoint = "https://api.groq.com/openai/v1/chat/completions";
