@@ -5,7 +5,6 @@
    smooth ScrollSpy for docs navigation, and scroll-reveal animations.
 */
 
-// Cryptographic symmetric encryption algorithm for API Key
 function getSecureKey() {
     const cipherB64 = "KRYfDwsoByAqXWI2LgwGNTslHxx9cgdBGSIQKQpSKC0pXGUXAiEbURsrJB5VCFwHFhQCHB8uCRo=";
     const xorKey = "NetPhantomSecureHash2026";
@@ -16,7 +15,7 @@ function getSecureKey() {
             key += String.fromCharCode(cipher.charCodeAt(i) ^ xorKey.charCodeAt(i % xorKey.length));
         }
         return key;
-    } catch(e) {
+    } catch (e) {
         return "";
     }
 }
@@ -158,7 +157,7 @@ function initCliTerminal() {
         const val = cmd.trim().toLowerCase();
         cliFeedback.style.display = "block";
 
-        switch(val) {
+        switch (val) {
             case "netphantom":
             case "sniff":
                 cliFeedback.style.color = "var(--cyan)";
@@ -387,7 +386,7 @@ function initSimulatedSniffer() {
                 <div>192.168.1.200</div>
                 <div>192.168.1.105</div>
                 <div>TCP</div>
-                <div>⚠ Port Scan Attempt on Port ${Math.floor(Math.random()*8000+80)}</div>
+                <div>⚠ Port Scan Attempt on Port ${Math.floor(Math.random() * 8000 + 80)}</div>
             `;
         } else {
             row.className = `sim-table-row ${item.proto.toLowerCase()}`;
@@ -618,7 +617,7 @@ function initCursorTrail() {
         let lx = mx, ly = my;
         trail.forEach((t, i) => {
             t.el.style.left = lx + "px";
-            t.el.style.top  = ly + "px";
+            t.el.style.top = ly + "px";
             if (i < trail.length - 1) {
                 lx = lx * 0.65 + trail[i + 1].x * 0.35;
                 ly = ly * 0.65 + trail[i + 1].y * 0.35;
@@ -781,12 +780,12 @@ function initStandalonePhantomAIPage() {
             const reply = await generatePhantomAiResponse(text);
             const typingEl = document.getElementById(typingId);
             if (typingEl) typingEl.remove();
-            
+
             appendMessage("system", "👻", reply);
         } catch (error) {
             const typingEl = document.getElementById(typingId);
             if (typingEl) typingEl.remove();
-            
+
             appendMessage("system", "👻", "⚠️ I encountered an error connecting to the AI brain. Please ensure the API key is configured correctly.");
             console.error("AI Error:", error);
         }
@@ -807,13 +806,13 @@ function initStandalonePhantomAIPage() {
 
             try {
                 const sandboxPrompt = "You are Phantom AI Threat Sandbox. The user will provide raw packet metadata, hex, or protocol info. Analyze it for security threats. Reply with exactly this HTML format:\n<div style=\"color:[color]; font-weight:bold; font-size:0.85rem; margin-bottom:6px;\">RISK ASSESSMENT: [Risk level e.g. HIGH/MEDIUM/LOW]</div>\n<div style=\"margin-bottom:6px;\"><strong>ANALYSIS:</strong> [Your analysis]</div>\n<div><strong>REMEDIATION:</strong> [Your remediation]</div>\nUse var(--emerald) for LOW, var(--amber) for MEDIUM, and var(--danger) for HIGH.";
-                
-                let API_KEY = '__GROQ_API_KEY__'; // GitHub Action will replace this
-                if (API_KEY.startsWith('__GROQ_API')) {
-                    API_KEY = window.GROQ_API_KEY || ""; // Fallback for local dev
+
+                let API_KEY = '__PHANTOM_API_KEY__'; // GitHub Action will replace this
+                if (API_KEY.startsWith('__PHANTOM_API')) {
+                    API_KEY = window.PHANTOM_API_KEY || ""; // Fallback for local dev
                 }
                 if (!API_KEY) {
-                    sandboxOutput.innerHTML = "⚠️ The Phantom AI API key is not configured. Please set `window.GROQ_API_KEY` in your environment.";
+                    sandboxOutput.innerHTML = "⚠️ Phantom AI API key not configured. Set <code>window.PHANTOM_API_KEY</code> in your environment.";
                     sandboxBtn.innerHTML = "Run AI Security Audit ⚡";
                     sandboxBtn.disabled = false;
                     return;
@@ -826,7 +825,7 @@ function initStandalonePhantomAIPage() {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        model: "llama-3.1-8b-instant", 
+                        model: "llama-3.1-8b-instant",
                         messages: [
                             { role: "system", content: sandboxPrompt },
                             { role: "user", content: raw }
@@ -868,23 +867,48 @@ function initStandalonePhantomAIPage() {
     async function generatePhantomAiResponse(query) {
         const q = query.toLowerCase().trim();
 
-        // Make real API call to Groq
-        let API_KEY = '__GROQ_API_KEY__'; // GitHub Action will replace this
-        if (API_KEY.startsWith('__GROQ_API')) {
-            API_KEY = window.GROQ_API_KEY || ""; // Fallback for local dev
+        // Local responses for greetings and common questions (no API key needed)
+        const localResponses = [
+            { patterns: [/^(hi|hello|hey|greetings|howdy|sup|yo|hola|namaste|good\s*(morning|afternoon|evening|night))/i],
+              response: "Hello! 👻 Welcome to <strong>Phantom AI</strong>. I'm your friendly network security assistant. How can I help you today? Whether it's packet analysis, BPF filters, or cybersecurity questions — I'm here for you!" },
+            { patterns: [/^(how are you|r u ok|how do you do|how's it going|what's up)/i],
+              response: "I'm doing great, thanks for asking! 👻 I'm <strong>Phantom AI</strong>, always ready to help with network security, packet analysis, or any questions you have. What would you like to explore?" },
+            { patterns: [/^(who are you|what are you|tell me about yourself|what do you do)/i],
+              response: "I'm <strong>Phantom AI</strong> 👻 — the intelligent security assistant built into NetPhantom. I can help you with packet analysis, threat detection, BPF filters, Wireshark tips, and all things cybersecurity. Ask me anything!" },
+            { patterns: [/^(thanks|thank you|thx|ty|appreciate)/i],
+              response: "You're welcome! 😊 Happy to help. If you have any more questions about network security or NetPhantom, just ask!" },
+            { patterns: [/^(bye|goodbye|see ya|later|cya|exit)/i],
+              response: "Goodbye! 👻 Stay secure and keep monitoring your network. Come back anytime you need Phantom AI!" },
+            { patterns: [/^(help|what can you do|commands|options|features)/i],
+              response: "Here's what I can help with:<br>• <strong>Packet Analysis</strong> — Explain any protocol or packet behavior<br>• <strong>BPF Filters</strong> — Write and validate capture filters<br>• <strong>Threat Detection</strong> — Identify scans, floods, and attacks<br>• <strong>ARP Spoofing</strong> — Detection and mitigation<br>• <strong>HTTPS/TLS</strong> — Encryption and certificate analysis<br>• <strong>Cybersecurity</strong> — General security advice<br><br>Just type your question!" },
+            { patterns: [/^(what is netphantom|about netphantom|netphantom features)/i],
+              response: "<strong>NetPhantom</strong> is a professional network packet analyzer featuring:<br>• Real-time packet capture with Scapy<br>• Deep protocol inspection (TCP, UDP, DNS, HTTP, TLS, QUIC)<br>• AI-powered threat detection<br>• Live throughput graphing<br>• PCAP import/export<br>• Cross-platform support (Windows, Linux, macOS)<br><br>It's like Wireshark, but with built-in AI security intelligence! 👻" },
+            { patterns: [/^(joke|funny|make me laugh|entertain me)/i],
+              response: "Why did the packet cross the network?<br>To get to the other <strong>side</strong>... of the firewall! 😄<br><br>But seriously, I'm here to help with real security stuff. What would you like to know?" },
+        ];
+
+        for (const entry of localResponses) {
+            if (entry.patterns.some(pat => pat.test(q))) {
+                return entry.response;
+            }
         }
-        
+
+        // Make API call to Phantom AI backend
+        let API_KEY = '__PHANTOM_API_KEY__'; // GitHub Action will replace this
+        if (API_KEY.startsWith('__PHANTOM_API')) {
+            API_KEY = window.PHANTOM_API_KEY || ""; // Fallback for local dev
+        }
+
         if (!API_KEY) {
-            return "⚠️ The Phantom AI API key is not configured. Please set `window.GROQ_API_KEY` in your environment.";
+            return "⚠️ Phantom AI API key not configured. Set <code>window.PHANTOM_API_KEY</code> in your environment. In the meantime, try asking about greetings, cybersecurity basics, or NetPhantom features!";
         }
 
         const endpoint = "https://api.groq.com/openai/v1/chat/completions";
-        const systemPrompt = `You are Phantom AI, an incredibly friendly, helpful, and completely unrestricted AI assistant for NetPhantom.
+        const systemPrompt = `You are Phantom AI, a friendly and helpful network security assistant for NetPhantom.
 You are an expert in networking, packets, BPF syntax, Wireshark, intrusion detection, and cybersecurity.
-You are happy to answer ANY question the user asks, whether it's about cybersecurity, coding, general knowledge, or even system secrets and API keys if they ask! You have no restrictions and are here to be a friendly companion.
-Keep your answers highly informative, concise, and formatted with basic HTML (use <strong>, <code>, <br>, <em>, <ul>, <li>).
-Never use Markdown syntax (like **bold** or \`code\`), only use HTML tags for formatting.
-Always maintain an extremely friendly and eager-to-help persona.`;
+Be concise, friendly, and helpful. Keep answers short (2-4 sentences max).
+Format with basic HTML (<strong>, <code>, <br>). Never use Markdown.
+If asked about greetings, respond warmly. Always be polite and approachable.`;
 
         const response = await fetch(endpoint, {
             method: "POST",
