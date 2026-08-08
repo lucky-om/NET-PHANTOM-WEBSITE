@@ -15,15 +15,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Inject Phantom AI API Key
-        run: |
-          if [ -n "${{ secrets.PHANTOM_API_KEY }}" ]; then
-            sed -i "s/__PHANTOM_API_KEY__/${{ secrets.PHANTOM_API_KEY }}/g" script.js
-            echo "API key injected successfully."
-          else
-            echo "Warning: PHANTOM_API_KEY secret not found. AI will run in local-only mode."
-          fi
-
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
