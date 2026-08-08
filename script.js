@@ -5,21 +5,6 @@
    smooth ScrollSpy for docs navigation, and scroll-reveal animations.
 */
 
-function getSecureKey() {
-    const cipherB64 = "KRYfDwsoByAqXWI2LgwGNTslHxx9cgdBGSIQKQpSKC0pXGUXAiEbURsrJB5VCFwHFhQCHB8uCRo=";
-    const xorKey = "NetPhantomSecureHash2026";
-    try {
-        const cipher = atob(cipherB64);
-        let key = "";
-        for (let i = 0; i < cipher.length; i++) {
-            key += String.fromCharCode(cipher.charCodeAt(i) ^ xorKey.charCodeAt(i % xorKey.length));
-        }
-        return key;
-    } catch (e) {
-        return "";
-    }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
     initGlobalErrorHandler();
     initNavbarScroll();
@@ -61,6 +46,34 @@ function escapeHtml(str) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+}
+
+// Sanitize AI HTML: allow safe formatting tags, strip dangerous ones
+function sanitizeAiHtml(html) {
+    if (!html) return "";
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+    // Remove script, iframe, object, embed, form, input, textarea, style, link, meta
+    const dangerousTags = ["script", "iframe", "object", "embed", "form", "input", "textarea", "style", "link", "meta", "base", "applet", "svg", "math"];
+    dangerousTags.forEach(tag => {
+        tmp.querySelectorAll(tag).forEach(el => el.remove());
+    });
+    // Remove all event handlers (onerror, onclick, onload, etc.)
+    tmp.querySelectorAll("*").forEach(el => {
+        Array.from(el.attributes).forEach(attr => {
+            if (attr.name.toLowerCase().startsWith("on")) {
+                el.removeAttribute(attr.name);
+            }
+        });
+        // Also remove javascript: URIs
+        if (el.hasAttribute("href") && el.getAttribute("href").toLowerCase().includes("javascript:")) {
+            el.removeAttribute("href");
+        }
+        if (el.hasAttribute("src") && el.getAttribute("src").toLowerCase().includes("javascript:")) {
+            el.removeAttribute("src");
+        }
+    });
+    return tmp.innerHTML;
 }
 
 // Toast Feedback Helper
@@ -718,8 +731,8 @@ function initStandalonePhantomAIPage() {
 
     if (!form || !messages) return;
 
-    // Cloudflare Worker proxy URL (replace with your worker URL after deploying)
-    const WORKER_URL = "https://netphantom-proxy.YOUR_SUBDOMAIN.workers.dev";
+    // Cloudflare Worker proxy URL (set via deployment or override here)
+    const WORKER_URL = "https://netphantom-proxy.luckyverse.workers.dev";
 
     // Anti-Jailbreak & Prompt Injection Defense Signatures (OWASP LLM Top 10)
     const injectionPatterns = [
@@ -751,8 +764,14 @@ function initStandalonePhantomAIPage() {
         const isMalicious = injectionPatterns.some(pat => pat.test(text));
         if (isMalicious) {
             setTimeout(() => {
-                appendMessage("blocked", "🛡️", "Hello there! I am <strong>Phantom AI</strong>. 🛡️ I am designed to strictly follow core security rules, so I cannot bypass safety guidelines or execute unauthorized system commands. However, I am always happy to help you with network analysis, packet capture, or cybersecurity questions! What would you like to explore?");
+                appendMessage("blocked", "🛡️", escapeHtml("Hello there! I am Phantom AI 🛡️ I am designed to strictly follow core security rules, so I cannot bypass safety guidelines or execute unauthorized system commands. However, I am always happy to help you with network analysis, packet capture, or cybersecurity questions! What would you like to explore?"));
             }, 300);
+            return;
+        }
+
+        // Validate WORKER_URL is configured
+        if (!WORKER_URL || WORKER_URL.includes("YOUR_SUBDOMAIN")) {
+            appendMessage("system", "👻", escapeHtml("⚠️ Phantom AI is not configured yet. The worker URL is not set. Please deploy the Cloudflare Worker first."));
             return;
         }
 
@@ -778,12 +797,12 @@ function initStandalonePhantomAIPage() {
             const typingEl = document.getElementById(typingId);
             if (typingEl) typingEl.remove();
 
-            appendMessage("system", "👻", "⚠️ I encountered an error connecting to the AI brain. Please ensure the API key is configured correctly.");
+            appendMessage("system", "👻", escapeHtml("⚠️ I encountered an error connecting to the AI brain. Please ensure the API key is configured correctly."));
             console.error("AI Error:", error);
         }
     });
 
-    // Sandbox Threat Evaluator Handler
+            // Sandbox Threat Evaluator Handler
     if (sandboxBtn && sandboxText && sandboxOutput) {
         sandboxBtn.addEventListener("click", async () => {
             const raw = sandboxText.value.trim();
@@ -791,10 +810,17 @@ function initStandalonePhantomAIPage() {
                 showToast("Please enter packet metadata or protocol info into sandbox.");
                 return;
             }
+
+            if (!WORKER_URL || WORKER_URL.includes("YOUR_SUBDOMAIN")) {
+                sandboxOutput.style.display = "block";
+                sandboxOutput.innerHTML = escapeHtml("⚠️ Phantom AI is not configured yet. The worker URL is not set.");
+                return;
+            }
+
             sandboxBtn.innerHTML = "Analyzing Metadata... ⏳";
             sandboxBtn.disabled = true;
             sandboxOutput.style.display = "block";
-            sandboxOutput.innerHTML = `<div>Connecting to Phantom AI Threat Engine... ⏳</div>`;
+            sandboxOutput.innerHTML = escapeHtml("Connecting to Phantom AI Threat Engine... ⏳");
 
             try {
                 const sandboxPrompt = "You are Phantom AI Threat Sandbox. The user will provide raw packet metadata, hex, or protocol info. Analyze it for security threats. Reply with exactly this HTML format:\n<div style=\"color:[color]; font-weight:bold; font-size:0.85rem; margin-bottom:6px;\">RISK ASSESSMENT: [Risk level e.g. HIGH/MEDIUM/LOW]</div>\n<div style=\"margin-bottom:6px;\"><strong>ANALYSIS:</strong> [Your analysis]</div>\n<div><strong>REMEDIATION:</strong> [Your remediation]</div>\nUse var(--emerald) for LOW, var(--amber) for MEDIUM, and var(--danger) for HIGH.";
@@ -818,7 +844,8 @@ function initStandalonePhantomAIPage() {
                 if (!response.ok) throw new Error("API request failed");
 
                 const data = await response.json();
-                sandboxOutput.innerHTML = data.choices[0].message.content;
+                sandboxOutput.textContent = "";
+                sandboxOutput.innerHTML = sanitizeAiHtml(data.choices[0].message.content);
             } catch (error) {
                 console.error("Sandbox Error:", error);
                 sandboxOutput.innerHTML = "⚠️ I encountered an error connecting to the AI brain.";
@@ -832,9 +859,10 @@ function initStandalonePhantomAIPage() {
     function appendMessage(type, avatar, contentHtml) {
         const msgDiv = document.createElement("div");
         msgDiv.className = `ai-msg ai-msg-${type}`;
+        const safeContent = type === "user" ? contentHtml : escapeHtml(contentHtml);
         msgDiv.innerHTML = `
             <span class="ai-avatar">${avatar}</span>
-            <div class="ai-bubble">${contentHtml}</div>
+            <div class="ai-bubble">${safeContent}</div>
         `;
         messages.appendChild(msgDiv);
         messages.scrollTop = messages.scrollHeight;
