@@ -807,7 +807,7 @@ function initStandalonePhantomAIPage() {
             try {
                 const sandboxPrompt = "You are Phantom AI Threat Sandbox. The user will provide raw packet metadata, hex, or protocol info. Analyze it for security threats. Reply with exactly this HTML format:\n<div style=\"color:[color]; font-weight:bold; font-size:0.85rem; margin-bottom:6px;\">RISK ASSESSMENT: [Risk level e.g. HIGH/MEDIUM/LOW]</div>\n<div style=\"margin-bottom:6px;\"><strong>ANALYSIS:</strong> [Your analysis]</div>\n<div><strong>REMEDIATION:</strong> [Your remediation]</div>\nUse var(--emerald) for LOW, var(--amber) for MEDIUM, and var(--danger) for HIGH.";
 
-                let API_KEY = '__PHANTOM_API_KEY__'; // Placeholder fallback to window.PHANTOM_API_KEY
+                let API_KEY = '__PHANTOM_API_KEY__'; // GitHub Action will replace this
                 if (API_KEY.startsWith('__PHANTOM_API')) {
                     API_KEY = window.PHANTOM_API_KEY || ""; // Fallback for local dev
                 }
@@ -866,41 +866,49 @@ function initStandalonePhantomAIPage() {
 
     async function generatePhantomAiResponse(query) {
         const q = query.toLowerCase().trim();
+        const original = query.trim();
+
+        // Capitalize first letter of user input for mirrored greeting
+        function mirrorGreeting(input) {
+            return input.charAt(0).toUpperCase() + input.slice(1);
+        }
 
         // Local responses for greetings and common questions (no API key needed)
         const localResponses = [
-            { patterns: [/^(hi|hello|hey|greetings|howdy|sup|yo|hola|namaste|good\s*(morning|afternoon|evening|night))/i],
-              response: "Hello! 👻 Welcome to <strong>Phantom AI</strong>. I'm your friendly network security assistant. How can I help you today? Whether it's packet analysis, BPF filters, or cybersecurity questions — I'm here for you!" },
-            { patterns: [/^(how are you|r u ok|how do you do|how's it going|what's up)/i],
-              response: "I'm doing great, thanks for asking! 👻 I'm <strong>Phantom AI</strong>, always ready to help with network security, packet analysis, or any questions you have. What would you like to explore?" },
-            { patterns: [/^(who are you|what are you|tell me about yourself|what do you do)/i],
-              response: "I'm <strong>Phantom AI</strong> 👻 — the intelligent security assistant built into NetPhantom. I can help you with packet analysis, threat detection, BPF filters, Wireshark tips, and all things cybersecurity. Ask me anything!" },
-            { patterns: [/^(thanks|thank you|thx|ty|appreciate)/i],
-              response: "You're welcome! 😊 Happy to help. If you have any more questions about network security or NetPhantom, just ask!" },
-            { patterns: [/^(bye|goodbye|see ya|later|cya|exit)/i],
-              response: "Goodbye! 👻 Stay secure and keep monitoring your network. Come back anytime you need Phantom AI!" },
+            { patterns: [/^(hi+|hello+|hey+|hie+|howdy|sup|yo+h*|hola|namaste|hi there|hello there|hey there)/i],
+              response: () => `${mirrorGreeting(original)}! 👻 I'm <strong>Phantom AI</strong>, your network security assistant. How can I help you today?` },
+            { patterns: [/^(good\s*(morning|afternoon|evening|night))/i],
+              response: () => `${mirrorGreeting(original)}! 👻 I'm <strong>Phantom AI</strong>. How can I assist you with network security today?` },
+            { patterns: [/^(how are you|r u ok|how do you do|how's it going|what's up|how do you feel)/i],
+              response: () => `I'm doing great, thanks for asking! 👻 How can I help you today?` },
+            { patterns: [/^(who are you|what are you|tell me about yourself|what do you do|what is phantom ai)/i],
+              response: () => `I'm <strong>Phantom AI</strong> 👻 — your network security assistant. I help with packet analysis, threat detection, BPF filters, and cybersecurity. What would you like to know?` },
+            { patterns: [/^(thanks|thank you|thx|ty|appreciate|tysm|tnx)/i],
+              response: () => `You're welcome! 😊 Happy to help. Anything else?` },
+            { patterns: [/^(bye|goodbye|see ya|later|cya|exit|gtg|gotta go)/i],
+              response: () => `Goodbye! 👻 Stay secure. Come back anytime!` },
             { patterns: [/^(help|what can you do|commands|options|features)/i],
-              response: "Here's what I can help with:<br>• <strong>Packet Analysis</strong> — Explain any protocol or packet behavior<br>• <strong>BPF Filters</strong> — Write and validate capture filters<br>• <strong>Threat Detection</strong> — Identify scans, floods, and attacks<br>• <strong>ARP Spoofing</strong> — Detection and mitigation<br>• <strong>HTTPS/TLS</strong> — Encryption and certificate analysis<br>• <strong>Cybersecurity</strong> — General security advice<br><br>Just type your question!" },
+              response: () => `I can help with:<br>• <strong>Packet Analysis</strong> — explain protocols and traffic<br>• <strong>BPF Filters</strong> — write capture filters<br>• <strong>Threat Detection</strong> — identify attacks<br>• <strong>Cybersecurity</strong> — general security advice<br><br>Just type your question!` },
             { patterns: [/^(what is netphantom|about netphantom|netphantom features)/i],
-              response: "<strong>NetPhantom</strong> is a professional network packet analyzer featuring:<br>• Real-time packet capture with Scapy<br>• Deep protocol inspection (TCP, UDP, DNS, HTTP, TLS, QUIC)<br>• AI-powered threat detection<br>• Live throughput graphing<br>• PCAP import/export<br>• Cross-platform support (Windows, Linux, macOS)<br><br>It's like Wireshark, but with built-in AI security intelligence! 👻" },
+              response: () => `<strong>NetPhantom</strong> is a professional packet analyzer with AI-powered threat detection, live capture, protocol inspection, and cross-platform support. Ask me anything about it!` },
             { patterns: [/^(joke|funny|make me laugh|entertain me)/i],
-              response: "Why did the packet cross the network?<br>To get to the other <strong>side</strong>... of the firewall! 😄<br><br>But seriously, I'm here to help with real security stuff. What would you like to know?" },
+              response: () => `Why did the packet cross the network? To get to the other <strong>side</strong>... of the firewall! 😄` },
         ];
 
         for (const entry of localResponses) {
             if (entry.patterns.some(pat => pat.test(q))) {
-                return entry.response;
+                return entry.response();
             }
         }
 
         // Make API call to Phantom AI backend
-        let API_KEY = '__PHANTOM_API_KEY__'; // Placeholder fallback to window.PHANTOM_API_KEY
+        let API_KEY = '__PHANTOM_API_KEY__'; // GitHub Action will replace this
         if (API_KEY.startsWith('__PHANTOM_API')) {
             API_KEY = window.PHANTOM_API_KEY || ""; // Fallback for local dev
         }
 
         if (!API_KEY) {
-            return "⚠️ Phantom AI API key not configured. Set <code>window.PHANTOM_API_KEY</code> in your environment. In the meantime, try asking about greetings, cybersecurity basics, or NetPhantom features!";
+            return "⚠️ Phantom AI API key not configured yet. You can still chat with me about greetings, cybersecurity basics, and NetPhantom features!";
         }
 
         const endpoint = "https://api.groq.com/openai/v1/chat/completions";
