@@ -1,3 +1,8 @@
 name = "netphantom-proxy"
 main = "worker.js"
 compatibility_date = "2024-01-01"
+
+# GROQ_API_KEY must be set as a Worker secret:
+#   1. Go to https://dash.cloudflare.com → Workers & Pages → netphantom-proxy → Settings → Variables
+#   2. Add variable: GROQ_API_KEY, value: gsk_your_key_here, type: Encrypt
+# Or via Wrangler CLI: npx wrangler secret put GROQ_API_KEY

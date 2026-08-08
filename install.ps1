@@ -6,7 +6,7 @@ $ErrorActionPreference = "Stop"
 
 $setupUrl = "https://github.com/lucky-om/NetPhantom/raw/main/installers/windows/dist/NetPhantom_Setup.exe"
 # After building NetPhantom_Setup.exe, compute hash: (Get-FileHash .\NetPhantom_Setup.exe -Algorithm SHA256).Hash
-$expectedHash = "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+$expectedHash = "F2CE19236A4D86D7BABC119CB889AB08C0C9E927544CDD43264169129C9CB29F"
 $tempDir = [System.IO.Path]::GetTempPath()
 $setupExe = Join-Path $tempDir "NetPhantom_Setup.exe"
 
