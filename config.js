@@ -11,4 +11,4 @@
 // requires a valid API key.
 // ═══════════════════════════════════════════════════
 
-window.PHANTOM_API_KEY = "";
+window.PHANTOM_API_KEY = "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";
