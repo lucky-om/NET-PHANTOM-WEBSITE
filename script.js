@@ -807,7 +807,7 @@ function initStandalonePhantomAIPage() {
             try {
                 const sandboxPrompt = "You are Phantom AI Threat Sandbox. The user will provide raw packet metadata, hex, or protocol info. Analyze it for security threats. Reply with exactly this HTML format:\n<div style=\"color:[color]; font-weight:bold; font-size:0.85rem; margin-bottom:6px;\">RISK ASSESSMENT: [Risk level e.g. HIGH/MEDIUM/LOW]</div>\n<div style=\"margin-bottom:6px;\"><strong>ANALYSIS:</strong> [Your analysis]</div>\n<div><strong>REMEDIATION:</strong> [Your remediation]</div>\nUse var(--emerald) for LOW, var(--amber) for MEDIUM, and var(--danger) for HIGH.";
 
-                let API_KEY = '__PHANTOM_API_KEY__'; // GitHub Action will replace this
+                let API_KEY = '__PHANTOM_API_KEY__'; // Placeholder fallback to window.PHANTOM_API_KEY
                 if (API_KEY.startsWith('__PHANTOM_API')) {
                     API_KEY = window.PHANTOM_API_KEY || ""; // Fallback for local dev
                 }
@@ -894,7 +894,7 @@ function initStandalonePhantomAIPage() {
         }
 
         // Make API call to Phantom AI backend
-        let API_KEY = '__PHANTOM_API_KEY__'; // GitHub Action will replace this
+        let API_KEY = '__PHANTOM_API_KEY__'; // Placeholder fallback to window.PHANTOM_API_KEY
         if (API_KEY.startsWith('__PHANTOM_API')) {
             API_KEY = window.PHANTOM_API_KEY || ""; // Fallback for local dev
         }
