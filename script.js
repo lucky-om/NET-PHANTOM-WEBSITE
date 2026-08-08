@@ -7,7 +7,7 @@
 
 // Cryptographic symmetric encryption algorithm for API Key
 function getSecureKey() {
-    const cipherB64 = "KRYfDyIvBRMdKAtWGyQ8LX0zPyJhQAFyGSIQKQpSKC0qGj8jER45Bi4GFTJKSmVQGik+aRA3JQU=";
+    const cipherB64 = "KRYfDwsoByAqXWI2LgwGNTslHxx9cgdBGSIQKQpSKC0pXGUXAiEbURsrJB5VCFwHFhQCHB8uCRo=";
     const xorKey = "NetPhantomSecureHash2026";
     try {
         const cipher = atob(cipherB64);
