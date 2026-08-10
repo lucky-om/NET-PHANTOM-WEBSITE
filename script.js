@@ -174,7 +174,7 @@ function initCliTerminal() {
             case "netphantom":
             case "sniff":
                 cliFeedback.style.color = "var(--cyan)";
-                cliFeedback.innerHTML = `[+] Initializing WinPcap/Npcap socket hooks...<br>[+] Active Interface: <strong>Wi-Fi (wlan0)</strong><br>[+] Running NetPhantom HUD v3.3.1 Packet Engine...`;
+                cliFeedback.innerHTML = `[+] Initializing WinPcap/Npcap socket hooks...<br>[+] Active Interface: <strong>Wi-Fi (wlan0)</strong><br>[+] Running NetPhantom HUD v3.3.2 Packet Engine...`;
                 const previewWindow = document.querySelector(".preview-window");
                 if (previewWindow) {
                     previewWindow.style.borderColor = "var(--cyan)";
@@ -184,12 +184,12 @@ function initCliTerminal() {
                 break;
             case "threats":
                 cliFeedback.style.color = "var(--warning)";
-                cliFeedback.innerHTML = `[!] Threat Engine Active. Loaded signatures: <strong>5 (Port Scan, SYN Flood, ARP Spoof, ICMP Flood, DNS Flood)</strong>.<br><a href="threats.html" style="color:var(--cyan);">Open Threat Index &rarr;</a>`;
+                cliFeedback.innerHTML = `[!] Threat Engine Active. Loaded signatures: <strong>5 (Port Scan, SYN Flood, ARP Spoof, ICMP Flood, DNS Flood)</strong>.<br><a href="threats" style="color:var(--cyan);">Open Threat Index &rarr;</a>`;
                 break;
             case "download":
                 cliFeedback.style.color = "var(--emerald)";
                 cliFeedback.innerHTML = `[+] Navigating to Download Release Hub...`;
-                window.location.href = "download.html";
+                window.location.href = "download";
                 break;
             case "help":
                 cliFeedback.style.color = "var(--text-primary)";
@@ -859,7 +859,7 @@ function initStandalonePhantomAIPage() {
     function appendMessage(type, avatar, contentHtml) {
         const msgDiv = document.createElement("div");
         msgDiv.className = `ai-msg ai-msg-${type}`;
-        const safeContent = type === "user" ? contentHtml : escapeHtml(contentHtml);
+        const safeContent = type === "user" ? contentHtml : sanitizeAiHtml(contentHtml);
         msgDiv.innerHTML = `
             <span class="ai-avatar">${avatar}</span>
             <div class="ai-bubble">${safeContent}</div>

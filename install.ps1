@@ -1,4 +1,4 @@
-# NetPhantom v3.3.1 Automated PowerShell Installer
+# NetPhantom v3.3.2 Automated PowerShell Installer
 # Run: iwr -useb https://netphantom.luckyverse.tech/install.ps1 | iex
 
 $ErrorActionPreference = "Stop"
@@ -12,7 +12,7 @@ $setupExe = Join-Path $tempDir "NetPhantom_Setup.exe"
 
 Write-Host ""
 Write-Host "==========================================================" -ForegroundColor Cyan
-Write-Host "   NetPhantom v3.3.1 — Automated Windows Setup Installer  " -ForegroundColor Cyan
+Write-Host "   NetPhantom v3.3.2 — Automated Windows Setup Installer  " -ForegroundColor Cyan
 Write-Host "   Publisher: Luckyverse Security                        " -ForegroundColor DarkCyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 Write-Host ""

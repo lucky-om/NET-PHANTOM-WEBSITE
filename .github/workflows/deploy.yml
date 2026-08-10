@@ -20,5 +20,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
-          exclude_files: ".github/** worker/** .nojekyll"
+          exclude_files: ".github/** worker/**"
           keep_files: true
