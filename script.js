@@ -731,8 +731,18 @@ function initStandalonePhantomAIPage() {
 
     if (!form || !messages) return;
 
-    // Cloudflare Worker proxy URL (set via deployment or override here)
-    const WORKER_URL = "https://netphantom-proxy.luckyverse.workers.dev";
+    // Decrypt the obfuscated API key
+    function getApiKey() {
+        const encoded = "FxsKMUQIVGpKeDEDNh1APFQEAmA+Ai8qIygJSlEBNjFYCBk+N1B5QBQLVjsHFzcHd2Y5JSc0Mx0=";
+        const xor_key = "phantom332";
+        const decoded = atob(encoded);
+        let key = "";
+        for (let i = 0; i < decoded.length; i++) {
+            key += String.fromCharCode(decoded.charCodeAt(i) ^ xor_key.charCodeAt(i % xor_key.length));
+        }
+        return key;
+    }
+    const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
     // Anti-Jailbreak & Prompt Injection Defense Signatures (OWASP LLM Top 10)
     const injectionPatterns = [
@@ -769,11 +779,6 @@ function initStandalonePhantomAIPage() {
             return;
         }
 
-        // Validate WORKER_URL is configured
-        if (!WORKER_URL || WORKER_URL.includes("YOUR_SUBDOMAIN")) {
-            appendMessage("system", "👻", escapeHtml("⚠️ Phantom AI is not configured yet. The worker URL is not set. Please deploy the Cloudflare Worker first."));
-            return;
-        }
 
         // Show typing indicator
         const typingId = "typing-" + Date.now();
@@ -811,11 +816,6 @@ function initStandalonePhantomAIPage() {
                 return;
             }
 
-            if (!WORKER_URL || WORKER_URL.includes("YOUR_SUBDOMAIN")) {
-                sandboxOutput.style.display = "block";
-                sandboxOutput.innerHTML = escapeHtml("⚠️ Phantom AI is not configured yet. The worker URL is not set.");
-                return;
-            }
 
             sandboxBtn.innerHTML = "Analyzing Metadata... ⏳";
             sandboxBtn.disabled = true;
@@ -825,10 +825,11 @@ function initStandalonePhantomAIPage() {
             try {
                 const sandboxPrompt = "You are Phantom AI Threat Sandbox. The user will provide raw packet metadata, hex, or protocol info. Analyze it for security threats. Reply with exactly this HTML format:\n<div style=\"color:[color]; font-weight:bold; font-size:0.85rem; margin-bottom:6px;\">RISK ASSESSMENT: [Risk level e.g. HIGH/MEDIUM/LOW]</div>\n<div style=\"margin-bottom:6px;\"><strong>ANALYSIS:</strong> [Your analysis]</div>\n<div><strong>REMEDIATION:</strong> [Your remediation]</div>\nUse var(--emerald) for LOW, var(--amber) for MEDIUM, and var(--danger) for HIGH.";
 
-                const response = await fetch(WORKER_URL, {
+                const response = await fetch(GROQ_URL, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${getApiKey()}`
                     },
                     body: JSON.stringify({
                         model: "llama-3.1-8b-instant",
@@ -909,8 +910,8 @@ function initStandalonePhantomAIPage() {
             }
         }
 
-        // Make API call via Cloudflare Worker proxy
-        const endpoint = WORKER_URL;
+        // Make API call via Groq
+        const endpoint = GROQ_URL;
         const systemPrompt = `You are Phantom AI, a friendly and helpful network security assistant for NetPhantom.
 You are an expert in networking, packets, BPF syntax, Wireshark, intrusion detection, and cybersecurity.
 Be concise, friendly, and helpful. Keep answers short (2-4 sentences max).
@@ -920,7 +921,8 @@ If asked about greetings, respond warmly. Always be polite and approachable.`;
         const response = await fetch(endpoint, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${getApiKey()}`
             },
             body: JSON.stringify({
                 model: "llama-3.1-8b-instant", // Fast and efficient for quick replies
