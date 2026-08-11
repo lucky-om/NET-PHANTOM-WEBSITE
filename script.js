@@ -51,6 +51,12 @@ function escapeHtml(str) {
 // Sanitize AI HTML: allow safe formatting tags, strip dangerous ones
 function sanitizeAiHtml(html) {
     if (!html) return "";
+    
+    // Convert basic markdown to HTML for AI rendering
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    html = html.replace(/`(.*?)`/g, '<code>$1</code>');
+    
     const tmp = document.createElement("div");
     tmp.innerHTML = html;
     // Remove script, iframe, object, embed, form, input, textarea, style, link, meta
