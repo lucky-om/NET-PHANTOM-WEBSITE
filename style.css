@@ -1859,6 +1859,20 @@ footer {
     align-items: flex-start;
 }
 
+.ai-msg-user {
+    flex-direction: row-reverse;
+}
+
+.ai-msg-user .ai-bubble {
+    background: #0d1829;
+    border-color: rgba(0, 243, 255, 0.25);
+    border-top-right-radius: 2px;
+}
+
+.ai-msg-system .ai-bubble, .ai-msg-blocked .ai-bubble {
+    border-top-left-radius: 2px;
+}
+
 .ai-avatar {
     font-size: 1.1rem;
 }
