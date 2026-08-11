@@ -57,8 +57,7 @@
             <div class="section-hdr text-center reveal-on-scroll" style="margin-bottom: 28px;">
                 <div class="hud-tag">AI_THREAT_INTELLIGENCE_MODULE_v3.3.2</div>
                 <h1 class="hero-title" style="margin-bottom:12px; font-size: 2.5rem;">
-                    <span class="animated-title-text">Phantom AI Console &</span>
-                    <span class="animated-gradient-text">Packet Threat Analyzer</span>
+                    <span class="animated-title-text">Phantom AI</span>
                 </h1>
                 <p style="color:var(--text-secondary); max-width:680px; margin:0 auto; font-size:0.92rem;">
                     Powered by <strong>Phantom AI Threat Intelligence</strong>. Query cybersecurity protocols, analyze
@@ -67,7 +66,7 @@
             </div>
 
             <!-- AI Page Main Grid -->
-            <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap:24px;" class="ai-page-grid">
+            <div style="display:flex; flex-direction:column; max-width:900px; margin: 0 auto; gap:24px;" class="ai-page-grid">
 
                 <!-- Left Column: Interactive Chat Console -->
                 <div class="panel"
@@ -118,50 +117,7 @@
                     </div>
                 </div>
 
-                <!-- Right Column: Packet Anomaly Sandbox & Security Specs -->
-                <div style="display:flex; flex-direction:column; gap:20px;">
-                    <!-- Sandbox Card -->
-                    <div class="panel" style="padding:20px;">
-                        <span class="code-tag" style="color:var(--amber); border-color:var(--amber);">Threat
-                            Evaluator</span>
-                        <h3 style="font-size:1.2rem; margin:8px 0 12px 0;">Packet Anomaly AI Sandbox</h3>
-                        <p style="font-size:0.84rem; margin-bottom:14px;">Paste raw packet metadata or socket
-                            information below for instant AI security risk scoring:</p>
 
-                        <div style="margin-bottom:12px;">
-                            <label
-                                style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim); display:block; margin-bottom:4px;">PROMPT
-                                / PACKET METADATA:</label>
-                            <textarea id="ai-sandbox-text" rows="4"
-                                style="width:100%; background:#060911; border:1px solid var(--border-ghost); border-radius:6px; padding:10px; font-family:var(--font-mono); font-size:0.80rem; color:var(--cyan); outline:none; resize:none;"
-                                placeholder="Example: Protocol: TCP, Src: 192.168.1.105:51240, Dst: 104.21.32.185:443, Info: [SYN] Seq=0 Win=64240"></textarea>
-                        </div>
-
-                        <button id="ai-sandbox-run" class="btn btn-secondary"
-                            style="width:100%; justify-center; text-align:center; padding:10px; font-size:0.82rem;">
-                            Run AI Security Audit ⚡
-                        </button>
-
-                        <div id="ai-sandbox-output"
-                            style="margin-top:14px; display:none; padding:12px; background:#080d16; border-radius:6px; border:1px solid var(--border-ghost); font-family:var(--font-mono); font-size:0.78rem; line-height:1.45;">
-                        </div>
-                    </div>
-
-                    <!-- Security Hardening Specs Card -->
-                    <div class="panel" style="padding:20px;">
-                        <span class="code-tag text-emerald">Security Architecture</span>
-                        <h3 style="font-size:1.15rem; margin:8px 0 10px 0;">Threat Shield Specifications</h3>
-                        <ul style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6; padding-left:18px;">
-                            <li><strong>Zero-Trust Input Validation:</strong> Strict context boundaries preventing
-                                invalid command overrides.</li>
-                            <li><strong>Anomaly Pattern Engine:</strong> Identifies scan signatures, unencrypted
-                                payloads, and SYN floods.</li>
-                            <li><strong>Server-Side Key Storage:</strong> API keys stored securely on a Cloudflare Worker proxy — never exposed to the browser or repository.</li>
-                            <li><strong>TLS 1.2+ Encryption:</strong> End-to-end encrypted HTTPS communication.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
         </div>
         </div>
