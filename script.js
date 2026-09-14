@@ -116,6 +116,15 @@ function initScrollReveal() {
 
     revealEls.forEach(el => observer.observe(el));
 
+    // FAILSAFE: If IntersectionObserver fails or misses elements, force reveal them after 1.5s
+    setTimeout(() => {
+        document.querySelectorAll(selectors).forEach(el => {
+            if (!el.classList.contains("revealed")) {
+                el.classList.add("revealed", "visible");
+            }
+        });
+    }, 1500);
+
     // Auto-wire reveal-on-scroll panels that don't have reveal classes yet
     document.querySelectorAll(".panel, .threat-card, .section-hdr").forEach((el, i) => {
         if (!el.classList.contains("reveal-on-scroll") && !el.classList.contains("reveal")) {
