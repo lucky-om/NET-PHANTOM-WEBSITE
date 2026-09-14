@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,10 +16,10 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
 
     <!-- Advanced SEO & Search Engine Tags -->
@@ -41,19 +41,19 @@
     <!-- Header Navigation -->
     <header>
         <div class="container navbar">
-            <a href="index" class="nav-logo" id="nav-logo-id">
-                <img src="logo.png" alt="NetPhantom Logo" class="nav-logo-icon">
+            <a href="index.html" class="nav-logo" id="nav-logo-id">
+                <img src="assets/logo.png" alt="NetPhantom Logo" class="nav-logo-icon">
                 <span class="nav-logo-text">NetPhantom</span>
             </a>
             <button class="mobile-nav-toggle" aria-label="Toggle Navigation" id="mobile-toggle-btn">☰</button>
             <nav class="nav-menu">
                 <ul class="nav-links">
-                    <li><a href="index" id="nav-home-id">Home</a></li>
-                    <li><a href="download" id="nav-download-id">Download</a></li>
-                    <li><a href="docs" id="nav-docs-id">Docs</a></li>
-                    <li><a href="threats" id="nav-threats-id">Threats</a></li>
-                    <li><a href="ai" class="active" id="nav-ai-id">Phantom AI 👻</a></li>
-                    <li><a href="privacy" id="nav-privacy-id">Privacy</a></li>
+                    <li><a href="index.html" id="nav-home-id">Home</a></li>
+                    <li><a href="download.html" id="nav-download-id">Download</a></li>
+                    <li><a href="docs.html" id="nav-docs-id">Docs</a></li>
+                    <li><a href="threats.html" id="nav-threats-id">Threats</a></li>
+                    <li><a href="ai.html" class="active" id="nav-ai-id">Phantom AI 👻</a></li>
+                    <li><a href="privacy.html" id="nav-privacy-id">Privacy</a></li>
                     
                 </ul>
             </nav>
@@ -80,13 +80,13 @@
                 class="ai-page-grid">
 
                 <!-- Left Column: Interactive Chat Console -->
-                <div class="panel"
+                <div class="panel panel-glow reveal"
                     style="display:flex; flex-direction:column; height: 600px; max-height: calc(100dvh - 150px); min-height: 250px; padding:0; overflow:hidden; border-color:rgba(0,243,255,0.3); width:100%; box-sizing:border-box;">
                     <!-- Chat Header -->
                     <div
                         style="padding:14px 20px; background:rgba(13,20,32,0.95); border-bottom:1px solid var(--border-ghost); display:flex; align-items:center; justify-content:space-between;">
                         <div style="display:flex; align-items:center; gap:12px;">
-                            <span style="font-size:1.4rem;">👻</span>
+                            <span class="ai-avatar"><img src="assets/phantom_ai.png" alt="Phantom AI"></span>
                             <div>
                                 <h3 style="font-size:1.1rem; margin:0;">Phantom AI Assistant</h3>
                                 <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--emerald);">
@@ -102,11 +102,10 @@
                     <div id="page-ai-messages"
                         style="flex:1; padding:16px; overflow-y:auto; display:flex; flex-direction:column; gap:14px; background:rgba(5,8,14,0.6);">
                         <div class="ai-msg ai-msg-system">
-                            <span class="ai-avatar">👻</span>
+                            <span class="ai-avatar"><img src="assets/phantom_ai.png" alt="Phantom AI"></span>
                             <div class="ai-bubble">
-                                Welcome to the <strong>Phantom AI Threat Intelligence Console</strong>. I am trained to
-                                assist security analysts with packet inspection, BPF capture syntax, threat heuristics,
-                                and defense protocols. How can I assist your network audit?
+                                Hey there! 👋 I'm <strong>Phantom AI</strong>, your personal network security companion! 💙<br>
+                                I'm here to help with packet inspection, BPF filters, threat analysis, and anything cybersecurity. What can I do for you today? 😊
                             </div>
                         </div>
                     </div>
@@ -137,7 +136,7 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <div class="nav-logo" style="margin-bottom:16px;">
-                        <img src="logo.png" alt="NetPhantom Logo" class="nav-logo-icon">
+                        <img src="assets/logo.png" alt="NetPhantom Logo" class="nav-logo-icon">
                         <span class="nav-logo-text">NetPhantom</span>
                     </div>
                     <p>A professional Cybersecurity project designed to bring advanced packet capture
@@ -146,16 +145,16 @@
                 <div class="footer-col">
                     <h4>Documentation & Tools</h4>
                     <ul>
-                        <li><a href="download">Download Release Installer</a></li>
-                        <li><a href="docs">User Guide & BPF Filters</a></li>
-                        <li><a href="ai" id="footer-ai-id">Phantom AI 👻</a></li>
-                        <li><a href="threats">Intrusion Signatures Index</a></li>
+                        <li><a href="download.html">Download Release Installer</a></li>
+                        <li><a href="docs.html">User Guide & BPF Filters</a></li>
+                        <li><a href="ai.html" id="footer-ai-id">Phantom AI 👻</a></li>
+                        <li><a href="threats.html">Intrusion Signatures Index</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Privacy & Security</h4>
                     <ul>
-                        <li><a href="privacy">Privacy Policy</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
                         <li><a href="privacy.html#ethical-usage">Ethical Terms</a></li>
                         <li><a href="https://github.com/lucky-om/NetPhantom" target="_blank">GitHub Repository</a></li>
                     </ul>

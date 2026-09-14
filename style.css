@@ -55,6 +55,12 @@
     box-sizing: border-box;
 }
 
+img, video, picture, svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 html {
     overflow-x: hidden;
     max-width: 100vw;
@@ -1305,11 +1311,12 @@ footer {
    ROBUST RESPONSIVE BREAKPOINTS (Desktop, Tablet, Mobile)
    ────────────────────────────────────────────── */
 
-/* ── 1. Desktop & Small Laptops (<= 1024px) ── */
-@media (max-width: 1024px) {
+/* ── 1. Desktop & Small Laptops (<= 1200px) ── */
+@media (max-width: 1200px) {
     .main-section { padding: 60px 0; }
-    h1, .hero-title { font-size: 2.8rem; }
-    h2 { font-size: 2rem; }
+    .cli-panel, .preview-window, .bento-grid, table { max-width: 100%; overflow-x: hidden; }
+    h1, .hero-title { font-size: 2.4rem; }
+    h2 { font-size: 1.8rem; }
     
     .hero-grid {
         grid-template-columns: 1fr;
@@ -1413,6 +1420,7 @@ footer {
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
+        width: 100%;
     }
     .nav-links a {
         display: block;
@@ -1451,7 +1459,6 @@ footer {
 }
 
 /* ── 3. Mobile Phones (<= 520px) ── */
-/* ── 3. Mobile Phones (<= 520px) ── */
 @media (max-width: 520px) {
     .main-section { padding: 28px 0; }
     
@@ -1466,12 +1473,15 @@ footer {
     h2 { font-size: 1.25rem; line-height: 1.3; }
     h3 { font-size: 1.05rem; }
     p, .hero-desc { 
-        font-size: 0.84rem; 
-        line-height: 1.48; 
+        font-size: 0.88rem; 
+        line-height: 1.5; 
         margin-bottom: 14px;
         overflow-wrap: break-word;
-        word-break: normal;
+        word-break: break-word;
     }
+    
+    .btn { width: 100%; display: flex; justify-content: center; margin-bottom: 10px; }
+    .hero-actions { flex-direction: column; width: 100%; }
     
     .hud-tag { font-size: 0.62rem; padding: 3px 8px; }
 
@@ -1876,7 +1886,50 @@ footer {
 }
 
 .ai-avatar {
-    font-size: 1.1rem;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    align-self: flex-start;
+}
+
+.ai-avatar img {
+    /* Override global img reset */
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    max-width: 40px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    display: block !important;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px rgba(0,243,255,0.6), 0 0 16px rgba(0,243,255,0.25);
+    animation: avatar-glow-pulse 3s ease-in-out infinite;
+    aspect-ratio: 1 / 1;
+}
+
+@keyframes avatar-glow-pulse {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(0,243,255,0.5), 0 0 14px rgba(0,243,255,0.2); }
+    50%       { box-shadow: 0 0 0 2px rgba(99,102,241,0.7), 0 0 20px rgba(99,102,241,0.4); }
+}
+
+/* User avatar icon in chat */
+.ai-avatar-user {
+    font-size: 1.2rem;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(0,243,255,0.15));
+    border-radius: 50%;
+    border: 1px solid rgba(99,102,241,0.35);
 }
 
 .ai-bubble {
@@ -1963,3 +2016,261 @@ footer {
     color: var(--warning);
     border: 1px solid rgba(255, 184, 0, 0.3);
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   NETPHANTOM PREMIUM MOTION & ANIMATION SYSTEM
+   Hallmark-grade microinteractions, reveals, pulses, and effects
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Scroll Reveal (triggered by JS) ── */
+.reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+.reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ── Stagger delay helpers ── */
+.delay-100 { transition-delay: 100ms !important; }
+.delay-200 { transition-delay: 200ms !important; }
+.delay-300 { transition-delay: 300ms !important; }
+.delay-400 { transition-delay: 400ms !important; }
+.delay-500 { transition-delay: 500ms !important; }
+
+/* ── Card Hover Lift ── */
+.panel, .bento-card, .threat-card, .download-card {
+    transition: var(--transition-smooth), transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+.panel:hover, .bento-card:hover, .threat-card:hover, .download-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 243, 255, 0.06);
+}
+
+/* ── Button Ripple + Glow ── */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.18) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.btn:hover::after { opacity: 1; }
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+    animation: btn-glow-breathe 3s ease-in-out infinite;
+}
+@keyframes btn-glow-breathe {
+    0%, 100% { box-shadow: 0 0 20px rgba(0, 243, 255, 0.3), 0 4px 20px rgba(0, 0, 0, 0.3); }
+    50%       { box-shadow: 0 0 35px rgba(0, 243, 255, 0.55), 0 4px 30px rgba(0, 0, 0, 0.5); }
+}
+
+/* ── Neon Border Scan Line (for panels & cards) ── */
+.panel-glow {
+    position: relative;
+    overflow: hidden;
+}
+.panel-glow::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -100%;
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    animation: panel-scan 4s linear infinite;
+    pointer-events: none;
+}
+@keyframes panel-scan {
+    0%   { left: -60%; }
+    100% { left: 110%; }
+}
+
+/* ── Floating Particles (injected by JS) ── */
+.particle {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    background: var(--cyan);
+    opacity: 0.8;
+    animation: particle-float linear forwards;
+}
+@keyframes particle-float {
+    0%   { transform: translateY(0) scale(1); opacity: 0.8; }
+    100% { transform: translateY(-80px) scale(0); opacity: 0; }
+}
+
+/* ── Typewriter Cursor ── */
+.typewriter-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background: var(--cyan);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: cursor-blink 1.1s step-end infinite;
+
+/* ── Section Entrance (page-load) ── */
+@keyframes section-enter {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.hero-section { animation: section-enter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.hero-section .hero-left { animation: section-enter 0.9s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.hero-section .hero-right { animation: section-enter 0.9s 0.25s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ── Navbar link underline slide ── */
+.nav-links a {
+    position: relative;
+}
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--accent));
+    border-radius: 1px;
+    transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-links a:hover::after,
+.nav-links a.active::after { width: 100%; }
+
+/* ── Logo icon hover spin ── */
+.nav-logo img {
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
+}
+.nav-logo:hover img {
+    transform: rotate(360deg) scale(1.1);
+    filter: drop-shadow(0 0 16px rgba(0,243,255,0.6));
+}
+
+/* ── Stats counter pulse on entry ── */
+.hero-stat-val {
+    transition: color 0.3s ease;
+}
+.hero-stat-item:hover .hero-stat-val {
+    color: var(--emerald);
+    text-shadow: 0 0 12px rgba(0,255,157,0.5);
+}
+
+/* ── FAQ Accordion smooth expand ── */
+.faq-content {
+    transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease, padding 0.3s ease;
+}
+
+/* ── AI page chat input glow on focus ── */
+#page-ai-input:focus {
+    box-shadow: 0 0 0 2px rgba(0,243,255,0.35), 0 0 20px rgba(0,243,255,0.1);
+    border-color: var(--cyan) !important;
+    outline: none;
+}
+
+/* ── AI message entrance animation ── */
+.ai-msg {
+    animation: msg-appear 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes msg-appear {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── HUD tag shimmer ── */
+.hud-tag::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -75%;
+    width: 50%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.12), transparent);
+    animation: hud-shimmer 3s linear infinite;
+}
+.hud-tag { position: relative; overflow: hidden; }
+@keyframes hud-shimmer {
+    0%   { left: -75%; }
+    100% { left: 125%; }
+}
+
+/* ── Bento grid card color accent bar ── */
+.bento-card {
+    position: relative;
+    overflow: hidden;
+}
+.bento-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--accent));
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.bento-card:hover::after { width: 100%; }
+
+/* ── Threat card severity glow ── */
+.threat-card:hover .threat-severity {
+    filter: brightness(1.3);
+    transition: filter 0.3s ease;
+}
+
+/* ── Download card active tab pulse ── */
+.channel-tab.active {
+    animation: tab-pulse 2.5s ease-in-out infinite;
+}
+@keyframes tab-pulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(0,243,255,0.2); }
+    50%       { box-shadow: 0 0 20px rgba(0,243,255,0.45); }
+}
+
+/* ── Scroll-to-top button float ── */
+.back-to-top {
+    animation: btn-float 3s ease-in-out infinite;
+}
+@keyframes btn-float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-6px); }
+}
+
