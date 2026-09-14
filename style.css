@@ -143,6 +143,7 @@ p {
     background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #ffffff 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: title-text-shine 6s ease infinite;
 }
@@ -151,6 +152,7 @@ p {
     background: linear-gradient(135deg, #00f3ff 0%, #6366f1 35%, #00ff9d 70%, #00f3ff 100%);
     background-size: 300% auto;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: gradient-flow 4s linear infinite;
     display: inline-block;
