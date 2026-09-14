@@ -100,29 +100,66 @@ function showToast(msg) {
 
 // Scroll Reveal Intersection Observer
 function initScrollReveal() {
-    // Support legacy + new reveal classes
+    // Support BOTH legacy (reveal-on-scroll/revealed) and new (reveal/visible) systems
     const selectors = ".reveal-on-scroll, .reveal, .reveal-left, .reveal-right, .reveal-scale";
     const revealEls = document.querySelectorAll(selectors);
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
+                // Add both class names so both CSS systems trigger
                 entry.target.classList.add("revealed", "visible");
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    }, { threshold: 0.1, rootMargin: "0px 0px -30px 0px" });
 
     revealEls.forEach(el => observer.observe(el));
 
-    // Auto-add reveal class to main content sections if not present
-    document.querySelectorAll(".main-section > .container > section, .panel, .bento-card, .threat-card").forEach((el, i) => {
-        if (!el.classList.contains("reveal") && !el.classList.contains("reveal-on-scroll")) {
-            el.classList.add("reveal");
-            el.style.transitionDelay = `${Math.min(i * 60, 400)}ms`;
+    // Auto-wire reveal-on-scroll panels that don't have reveal classes yet
+    document.querySelectorAll(".panel, .threat-card, .section-hdr").forEach((el, i) => {
+        if (!el.classList.contains("reveal-on-scroll") && !el.classList.contains("reveal")) {
+            el.classList.add("reveal-on-scroll");
+            el.style.transitionDelay = `${Math.min(i * 50, 350)}ms`;
             observer.observe(el);
         }
     });
+
+    // Add panel-glow class to panels for the neon scan line effect
+    document.querySelectorAll(".panel").forEach(el => {
+        el.classList.add("panel-glow");
+    });
+
+    // Inject floating back-to-top button if not present
+    if (!document.getElementById("back-to-top-btn")) {
+        const btn = document.createElement("button");
+        btn.id = "back-to-top-btn";
+        btn.className = "back-to-top";
+        btn.title = "Back to top";
+        btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>`;
+        btn.style.cssText = `
+            position:fixed; bottom:28px; right:28px; z-index:1000;
+            width:44px; height:44px; border-radius:50%;
+            background:rgba(13,17,26,0.9); border:1px solid rgba(0,243,255,0.35);
+            color:var(--cyan); cursor:pointer; display:none;
+            align-items:center; justify-content:center;
+            box-shadow:0 0 20px rgba(0,243,255,0.2);
+            backdrop-filter:blur(12px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        `;
+        document.body.appendChild(btn);
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                btn.style.display = "flex";
+                setTimeout(() => btn.style.opacity = "1", 10);
+            } else {
+                btn.style.opacity = "0";
+                setTimeout(() => btn.style.display = "none", 300);
+            }
+        });
+        btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    }
 }
 
 // Click Particle Burst Effect

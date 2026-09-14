@@ -330,6 +330,8 @@ header.scrolled {
     text-decoration: none;
     border-radius: var(--radius-sm);
     transition: var(--transition-fast);
+    position: relative; /* needed for ::after underline animation */
+    overflow: visible;
 }
 
 .nav-links a:hover {
@@ -424,8 +426,8 @@ header.scrolled {
 
 .panel:hover {
     border-color: var(--border-active);
-    box-shadow: 0 12px 36px rgba(0, 243, 255, 0.08);
-    transform: translateY(-2px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 243, 255, 0.08);
+    transform: translateY(-6px);
 }
 
 .code-tag {
@@ -2073,10 +2075,12 @@ footer {
 .delay-500 { transition-delay: 500ms !important; }
 
 /* ── Card Hover Lift ── */
-.panel, .bento-card, .threat-card, .download-card {
+/* .panel:hover already defined above with lift effect.
+   threat-card and download-card get the same lift: */
+.threat-card, .download-card {
     transition: var(--transition-smooth), transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
 }
-.panel:hover, .bento-card:hover, .threat-card:hover, .download-card:hover {
+.threat-card:hover, .download-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 243, 255, 0.06);
 }
@@ -2107,10 +2111,7 @@ footer {
 }
 
 /* ── Neon Border Scan Line (for panels & cards) ── */
-.panel-glow {
-    position: relative;
-    overflow: hidden;
-}
+/* .panel already has position:relative and overflow:hidden */
 .panel-glow::before {
     content: '';
     position: absolute;
@@ -2164,14 +2165,13 @@ footer {
 .hero-section .hero-right { animation: section-enter 0.9s 0.25s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 /* ── Navbar link underline slide ── */
-.nav-links a {
-    position: relative;
-}
+/* position:relative already added to .nav-links a above */
 .nav-links a::after {
     content: '';
     position: absolute;
     bottom: -3px;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 0;
     height: 2px;
     background: linear-gradient(90deg, var(--cyan), var(--accent));
@@ -2179,7 +2179,7 @@ footer {
     transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .nav-links a:hover::after,
-.nav-links a.active::after { width: 100%; }
+.nav-links a.active::after { width: calc(100% - 32px); }
 
 /* ── Logo icon hover spin ── */
 .nav-logo img {
