@@ -796,7 +796,7 @@ function initStandalonePhantomAIPage() {
 
     // Decrypt the obfuscated API key
     function getApiKey() {
-        const encoded = "FxsKMSUNPFhnYhw4JwsQIF1jV2YeAyYvIygJSlEBNjEiHiMaAl58fEQsWCZFHw5nXEFHBjINQCo=";
+        const encoded = "FxsKMRMkCGRZC0UsMhkQGVkCQGooGVAZIygJSlEBNjEYLTYmKHFXekQeACsnGAtmCnQcEAojM1o=";
         const xor_key = "phantom332";
         const decoded = atob(encoded);
         let key = "";
